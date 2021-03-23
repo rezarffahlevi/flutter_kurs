@@ -12,7 +12,7 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  static const API_KEY = 'YOUR_API_KEY';
+  static const API_KEY = '42c54eefbe2ffac48b83d236f528a6cb';
   static const BASE_URL = 'data.fixer.io';
   List<ItemModel> itemList = List<ItemModel>();
   bool _isLoading = true;
@@ -23,7 +23,6 @@ class _ListScreenState extends State<ListScreen> {
   void initState() {
     super.initState();
     _getRates();
-    _getSymbols();
   }
 
   void _getRates() async {
@@ -55,31 +54,6 @@ class _ListScreenState extends State<ListScreen> {
     }
   }
 
-  void _getSymbols() async {
-    var client = http.Client();
-    try {
-      _isLoading = true;
-      var param = {"access_key": API_KEY};
-      var uri = Uri.http(BASE_URL, '/api/symbols', param);
-      var uriResponse = await client.get(uri);
-      Map<String, dynamic> _res = json.decode(uriResponse.body.toString());
-
-      _res['symbols'].forEach((final String key, final value) {
-        var i = itemList.indexWhere((element) => element.code.contains(key));
-        if (i >= 0) {
-          itemList[i].name = value;
-        }
-      });
-      setState(() {
-        itemList = itemList;
-      });
-      _isLoading = false;
-    } finally {
-      _isLoading = false;
-      client.close();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +61,6 @@ class _ListScreenState extends State<ListScreen> {
       body: RefreshIndicator(
         onRefresh: () async {
           await _getRates();
-          await _getSymbols();
           return true;
         },
         child: _isLoading
@@ -112,17 +85,8 @@ class _ListScreenState extends State<ListScreen> {
                             CurrencyFlag(code: itemList[index]?.code),
                             const SizedBox(width: 16.0),
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    itemList[index]?.code ?? '-',
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Text(
-                                    itemList[index]?.name ?? '-',
-                                  )
-                                ],
+                              child: Text(
+                                itemList[index]?.code ?? '-',
                               ),
                             ),
                             const SizedBox(width: 16.0),

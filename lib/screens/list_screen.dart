@@ -94,77 +94,50 @@ class _ListScreenState extends State<ListScreen> {
             ? Center(
                 child: Text('Loading'),
               )
-            : Column(
-                children: [
-                  Material(
+            : ListView.builder(
+                itemCount: itemList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Material(
                     child: InkWell(
                       onTap: null,
                       child: Container(
                         padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          children: [
-                            Text('Base : $base'),
-                            SizedBox(
-                              height: 5,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            CurrencyFlag(code: itemList[index]?.code),
+                            const SizedBox(width: 16.0),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    itemList[index]?.code ?? '-',
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    itemList[index]?.name ?? '-',
+                                  )
+                                ],
+                              ),
                             ),
-                            Text('Last Update : $date'),
+                            const SizedBox(width: 16.0),
+                            Row(
+                              children: <Widget>[
+                                Text(itemList[index]?.value.toString()),
+                                const SizedBox(width: 16.0),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: itemList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Material(
-                            child: InkWell(
-                              onTap: null,
-                              child: Container(
-                                padding: const EdgeInsets.all(16.0),
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(color: Colors.grey),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    CurrencyFlag(code: itemList[index]?.code),
-                                    const SizedBox(width: 16.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            itemList[index]?.code ?? '-',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const SizedBox(height: 2),
-                                          Text(
-                                            itemList[index]?.name ?? '-',
-                                            // style: context.caption,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16.0),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(itemList[index]?.value.toString()),
-                                        const SizedBox(width: 16.0),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
-                ],
-              ),
+                  );
+                }),
       ),
     );
   }

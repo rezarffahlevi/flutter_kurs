@@ -168,11 +168,7 @@ class CurrencyFlag extends StatelessWidget {
     final file = '${code.toLowerCase()}.png';
 
     if (icons.contains(file)) {
-      return CircleAvatar(
-        backgroundImage:
-            AssetImage('icons/currency/$file', package: 'currency_icons'),
-        backgroundColor: Colors.blue,
-      );
+      return Image.asset('icons/currency/$file', package: 'currency_icons');
     } else {
       return CircleAvatar(backgroundColor: Colors.black);
     }

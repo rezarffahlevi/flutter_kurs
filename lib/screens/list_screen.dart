@@ -12,7 +12,7 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  static const API_KEY = 'YOUR_API_KEY';
+  static const API_KEY = '42c54eefbe2ffac48b83d236f528a6cb';
   static const BASE_URL = 'data.fixer.io';
   List<ItemModel> itemList = List<ItemModel>();
   bool _isLoading = true;
